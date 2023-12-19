@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="header">
+        <h1>Recipe Khajana</h1>
+      </div>
+      <p>
+        Welcome to Recipe Khajana! Here you can find a wide variety of delicious
+        recipes to try.
+      </p>
+      <ul>
+        <li>Recipe 1</li>
+        <li>Recipe 2</li>
+        <li>Recipe 3</li>
+      </ul>
     </div>
   );
 }
