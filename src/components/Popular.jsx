@@ -4,13 +4,19 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 
 const Popular = () => {
-  const [popular, setPopular] = useState(null);
+  const [popular, setPopular] = useState([]);
   const getPopular = async () => {
-    const api = await fetch(
-      `https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=9`
-    );
-    const data = await api.json();
-    setPopular(data.recipes);
+    const check = localStorage.getItem("popular");
+    if (check) {
+      setPopular(JSON.parse(check));
+    } else {
+      const api = await fetch(
+        `https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=9`
+      );
+      const data = await api.json();
+      setPopular(data.recipes);
+      localStorage.setItem("popular", JSON.stringify(data.recipes));
+    }
   };
   useEffect(() => {
     getPopular();
@@ -21,14 +27,12 @@ const Popular = () => {
         <h1>Popular Picks</h1>
         <Splide
           options={{
-            perPage: 3,
-            arrows: false,
-            pagination: false,
+            perPage: 4,
             drag: "free",
             gap: "1rem",
           }}
         >
-          {popular &&
+          {
             popular.map((item) => {
               return (
                 <SplideSlide key={item.id}>
@@ -45,12 +49,11 @@ const Popular = () => {
     </div>
   );
 };
-
 const Wrapper = styled.div`
   margin: 4rem 0rem;
 `;
 const Card = styled.div`
-  min-height: 25rem;
+  min-height: 15rem;
   border-radius: 2rem;
   overflow: hidden;
   position: relative;
@@ -87,4 +90,5 @@ const Gradient = styled.div`
   height: 100%;
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
 `;
+
 export default Popular;
