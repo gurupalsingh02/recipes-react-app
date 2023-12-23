@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
-
+import { Link } from "react-router-dom";
 const Veggie = () => {
   const [Veggie, setVeggie] = useState([]);
   const getVeggie = async () => {
@@ -11,11 +11,11 @@ const Veggie = () => {
       setVeggie(JSON.parse(check));
     } else {
       const api = await fetch(
-        `https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=9`
+        `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.REACT_APP_API_KEY}&diet=vegetarian`
       );
       const data = await api.json();
-      setVeggie(data.recipes);
-      localStorage.setItem("Veggie", JSON.stringify(data.recipes));
+      setVeggie(data.results);
+      localStorage.setItem("Veggie", JSON.stringify(data.results));
     }
   };
   useEffect(() => {
@@ -27,7 +27,7 @@ const Veggie = () => {
         <h1>Vegetarian Picks</h1>
         <Splide
           options={{
-            perPage: 4,
+            perPage: 3,
             drag: "free",
             gap: "1rem",
           }}
@@ -36,9 +36,11 @@ const Veggie = () => {
             return (
               <SplideSlide key={item.id}>
                 <Card>
+                  <Link to={"/recipe/" + item.id}>
                   <p>{item.title}</p>
                   <img src={item.image} alt={item.title} />
                   <Gradient />
+                    </Link>
                 </Card>
               </SplideSlide>
             );
@@ -51,6 +53,10 @@ const Veggie = () => {
 
 const Wrapper = styled.div`
   margin: 4rem 0rem;
+  h1{
+    color: black;
+    text-align: left;
+  }
 `;
 const Card = styled.div`
   min-height: 15rem;

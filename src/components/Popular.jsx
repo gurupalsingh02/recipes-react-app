@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
-
+import { Link } from "react-router-dom";
 const Popular = () => {
   const [popular, setPopular] = useState([]);
   const getPopular = async () => {
@@ -27,7 +27,7 @@ const Popular = () => {
         <h1>Popular Picks</h1>
         <Splide
           options={{
-            perPage: 4,
+            perPage: 3,
             drag: "free",
             gap: "1rem",
           }}
@@ -37,9 +37,11 @@ const Popular = () => {
               return (
                 <SplideSlide key={item.id}>
                   <Card>
+                    <Link to={'/recipe/'+item.id}>
                     <p>{item.title}</p>
                     <img src={item.image} alt={item.title} />
                     <Gradient />
+                    </Link>
                   </Card>
                 </SplideSlide>
               );
@@ -51,6 +53,10 @@ const Popular = () => {
 };
 const Wrapper = styled.div`
   margin: 4rem 0rem;
+  h1{
+    color: black;
+    text-align: left;
+  }
 `;
 const Card = styled.div`
   min-height: 15rem;
